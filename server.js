@@ -5,13 +5,14 @@ const errorHandler = require('./middlewares/errorHandler')
 const noMatch = require('./middlewares/noMatch')
 const express = require('express')
 const app = express()
+const mainRouter = require('./routes/main')
 
 app.use(express.json())
 
 app.get('/', (req, res) => {
     res.status(200).send(`<h1>Welcome</h1>`)
 })
-
+app.use('/api/v1', mainRouter)
 app.use(errorHandler)
 app.use(noMatch)
 
@@ -19,7 +20,7 @@ const port = process.env.PORT || 5000
 
 const start = () => {
     try {
-        connectDB(process.env.MONGO_URI)
+        // connectDB(process.env.MONGO_URI)
         app.listen(port, () => {
             console.log(`server listening on port: ${port}`)
         })
